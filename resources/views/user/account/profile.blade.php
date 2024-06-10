@@ -1,4 +1,4 @@
-@extends('font.layouts.app')
+@extends('user.layouts.app')
 @section('main')
 <section class="section-5 bg-2">
     <div class="container py-5">
@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                @include('font.account.sidebar')
+                @include('user.account.sidebar')
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4">

@@ -10,7 +10,7 @@ class AccountController extends Controller
     //
     public function index()
     {
-        return view('font.account.profile');
+        return view('user.account.profile');
     }
     public function logout(){
         Auth::logout();

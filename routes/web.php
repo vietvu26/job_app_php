@@ -15,7 +15,7 @@ use App\Http\Controllers\AccountController;
 */
 
 Route::get('/', function () {
-    return view('font.home');
+    return view('user.home');
 });
 
 Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/account/profile', function () {
-    return view('font.account.profile');
+    return view('user.account.profile');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

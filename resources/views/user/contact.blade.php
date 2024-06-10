@@ -1,4 +1,4 @@
-@extends('font.layouts.app')
+@extends('user.layouts.app')
 @section('main')
 <h1>This is contact</h1>
 

@@ -1,4 +1,4 @@
-@extends('font.layouts.app')
+@extends('user.layouts.app')
 @section('main')
 <section class="section-0 lazy d-flex bg-image-style dark align-items-center "   class="" data-bg="assets/images/banner5.jpg">
     <div class="container">
