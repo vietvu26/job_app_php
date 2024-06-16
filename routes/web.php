@@ -35,10 +35,22 @@ Route::get('/account/profile', function () {
 })->middleware(['auth', 'verified'])->name('account');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
+    Route::patch('/update-profile', [AccountController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/account/profile', [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
+    Route::get('/create-cv', [AccountController::class, 'createcv'])->name('account.createcv');
+    Route::post('/save-cv', [AccountController::class, 'savecv'])->name('account.saveCV');
 });
+
+Route::get('/account/profile', function () {
+    return view('user.account.profile');
+})->middleware(['auth', 'verified'])->name('account.profile');
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 Route::middleware(['auth', 'admin'])->group(function () {
     // Job
     Route::get('/admin/job/create', [JobController::class, 'create'])->name('admin.job.create');
