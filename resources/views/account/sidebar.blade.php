@@ -1,8 +1,15 @@
 <div class="card border-0 shadow mb-4 p-3">
     <div class="s-body text-center mt-3">
-        <img src="assets/assets/images/avatar7.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-        <h5 class="mt-3 pb-0">Mohit Singh</h5>
-        <p class="text-muted mb-1 fs-6">Full Stack Developer</p>
+        @if (Auth::user()->image != '')
+        <img src="{{ asset('profile_pic/' . Auth::user()->image) }}" alt="avatar" class="rounded-circle img-fluid"
+            style="width: 150px;">
+        @else
+        <img src="{{ asset('assets/images/avatar7.png') }}" alt="avatar" class="rounded-circle img-fluid"
+            style="width: 150px;">
+        @endif
+
+        <h5 class="mt-3 pb-0">{{ Auth::user()->name }}</h5>
+        <p class="text-muted mb-1 fs-6">{{ Auth::user()->designation }}</p>
         <div class="d-flex justify-content-center mb-2">
             <button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-primary">Change
                 Profile Picture</button>
@@ -13,33 +20,33 @@
     <div class="card-body p-0">
         <ul class="list-group list-group-flush ">
             <li class="list-group-item d-flex justify-content-between p-3">
-                <a href="account.html">Account Settings</a>
+                <a href="">Account Settings</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{route('admin.job.create')}}">Post a Job</a>
+                <a href="{{ route('account.createcv') }}">Post a CV</a>
             </li>
             @auth
-            @if (@auth()->user()->role == 'admin')
+            @if (@auth()->user()->role == 'user')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{route('admin.job.manage')}}">Manage Jobs</a>
+                <a href="">My Jobs</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{route('admin.category.manage')}}">Manage Category</a>
-            </li>
-            @else
-            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="my-jobs.html">My Jobs</a>
+                <a href="">Jobs Applied</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="job-applied.html">Jobs Applied</a>
+                <a href="">Saved Jobs</a>
+            </li>
+            @elseif (@auth()->user()->role == 'admin')
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <a href="{{ route('admin.job.manage') }}">Manage Jobs</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="saved-jobs.html">Saved Jobs</a>
+                <a href="{{ route('admin.category.manage') }}">Manage Category</a>
             </li>
             @endif
             @endauth
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="{{route('account.logout')}}">Log Out</a>
+                <a href="{{ route('account.logout') }}">Logout</a>
             </li>
         </ul>
     </div>

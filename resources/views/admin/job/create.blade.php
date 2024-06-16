@@ -1,4 +1,4 @@
-@extends ('front.layouts.app')
+@extends ('layouts.app')
 @section('main')
 <div class="success-message">
     <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">

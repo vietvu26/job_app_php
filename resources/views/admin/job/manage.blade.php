@@ -1,4 +1,4 @@
-@extends ('front.layouts.app')
+@extends ('layouts.app')
 @section('main')
 <div class="container mt-4 h-100 manage-job">
     <div class="row">

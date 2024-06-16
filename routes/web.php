@@ -30,9 +30,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/account/profile', function () {
-    return view('front.account.profile');
-})->middleware(['auth', 'verified'])->name('account');
+// Route::get('/admin/account/profile', function () {
+//     return view('admin.account.profile');
+// })->middleware(['auth', 'verified'])->name('account');
 
 Route::middleware('auth')->group(function () {
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
@@ -43,8 +43,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/account/profile', function () {
-    return view('user.account.profile');
-})->middleware(['auth', 'verified'])->name('account.profile');
+    return view('account.profile');
+})->middleware(['auth', 'verified'])->name('account');
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

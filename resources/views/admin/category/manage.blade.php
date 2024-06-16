@@ -1,5 +1,5 @@
 <!-- Display all categories -->
-@extends ('front.layouts.app')
+@extends ('layouts.app')
 @section('main')
 <div class="container manage-category mt-4">
     <table class="table table-bordered">
@@ -11,10 +11,10 @@
         </thead>
         <tbody>
             @foreach($categories as $category)
-            <tr>
-                <td>{{ $category->id }}</td>
-                <td>{{ $category->name }}</td>
-            </tr>
+                <tr>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->name }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>

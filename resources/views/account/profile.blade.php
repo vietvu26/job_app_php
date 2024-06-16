@@ -1,4 +1,4 @@
-@extends('user.layouts.app')
+@extends('layouts.app')
 @section('main')
 @php
     $user = Auth::user();
@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                @include('user.account.sidebar')
+                @include('account.sidebar')
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4">
@@ -36,7 +36,8 @@
 
                             <div class="mb-4">
                                 <label for="name" class="mb-2">Name*</label>
-                                <input type="text" name="name" id="name" placeholder="Enter Name" class="form-control" value="{{ old('name', $user->name) }}">
+                                <input type="text" name="name" id="name" placeholder="Enter Name" class="form-control"
+                                    value="{{ old('name', $user->name) }}">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -44,7 +45,8 @@
 
                             <div class="mb-4">
                                 <label for="email" class="mb-2">Email*</label>
-                                <input type="email" name="email" id="email" placeholder="Enter Email" class="form-control" value="{{ old('email', $user->email) }}">
+                                <input type="email" name="email" id="email" placeholder="Enter Email"
+                                    class="form-control" value="{{ old('email', $user->email) }}">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -52,7 +54,8 @@
 
                             <div class="mb-4">
                                 <label for="designation" class="mb-2">Designation</label>
-                                <input type="text" name="designation" id="designation" placeholder="Designation" class="form-control" value="{{ old('designation', $user->designation) }}">
+                                <input type="text" name="designation" id="designation" placeholder="Designation"
+                                    class="form-control" value="{{ old('designation', $user->designation) }}">
                                 @error('designation')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -60,7 +63,8 @@
 
                             <div class="mb-4">
                                 <label for="mobile" class="mb-2">Mobile</label>
-                                <input type="text" name="mobile" id="mobile" placeholder="Mobile" class="form-control" value="{{ old('mobile', $user->mobile) }}">
+                                <input type="text" name="mobile" id="mobile" placeholder="Mobile" class="form-control"
+                                    value="{{ old('mobile', $user->mobile) }}">
                                 @error('mobile')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
