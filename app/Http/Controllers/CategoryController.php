@@ -10,7 +10,7 @@ class CategoryController extends Controller
     //
     public function create()
     {
-        return view('front.admin.category.create');
+        return view('admin.category.create');
     }
     public function store(Request $request)
     {
@@ -23,6 +23,6 @@ class CategoryController extends Controller
     public function manage()
     {
         $categories = Category::oldest()->paginate(3);
-        return view('front.admin.category.manage', ['categories' => $categories]);
+        return view('admin.category.manage', ['categories' => $categories]);
     }
 }

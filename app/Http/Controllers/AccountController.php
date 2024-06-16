@@ -20,7 +20,7 @@ class AccountController extends Controller
     //
     public function index()
     {
-        return view('front.account.profile');
+        return view('account.profile');
     }
     public function logout()
     {
@@ -96,8 +96,8 @@ class AccountController extends Controller
     }
     public function createcv()
     {
-        $categories = Category::orderBy('name', 'ASC')->where('status', 1)->get();
-        $jobTypes = JobType::orderBy('name', 'ASC')->where('status', 1)->get();
+        $categories = Category::orderBy('name', 'ASC')->get();
+        $jobTypes = JobType::orderBy('name', 'ASC')->get();
 
         return view('user.account.job.create', [
             'categories' => $categories,

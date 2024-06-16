@@ -15,7 +15,7 @@ class JobController extends Controller
     {
         // list categories
         $categories = Category::all();
-        return view('front.admin.job.create', ['categories' => $categories]);
+        return view('admin.job.create', ['categories' => $categories]);
         // return view('front.admin.job.create', ['categories' => []]);
     }
     public function store(Request $request)
@@ -47,11 +47,11 @@ class JobController extends Controller
             }
             $job->candidates = $candidates;
         }
-        return view('front.admin.job.manage', ['jobs' => $jobs]);
+        return view('admin.job.manage', ['jobs' => $jobs]);
     }
     public function edit(Job $job)
     {
-        return view('front.admin.job.edit', ['job' => $job]);
+        return view('admin.job.edit', ['job' => $job]);
     }
     public function update(Request $request, Job $job)
     {

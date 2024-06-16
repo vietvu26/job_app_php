@@ -1,4 +1,4 @@
-@extends ('front.layouts.app')
+@extends ('layouts.app')
 @section('main')
 @if (session('success'))
     <div class="success-message">

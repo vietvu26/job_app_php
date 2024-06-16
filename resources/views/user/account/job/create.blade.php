@@ -1,10 +1,8 @@
-
-
-@extends('user.layouts.app')
+@extends('layouts.app')
 
 @section('main')
 @php
-    $user = Auth::user();
+$user = Auth::user();
 @endphp
 <section class="section-5 bg-2">
     <div class="container py-5">
@@ -20,14 +18,14 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                @include('user.account.sidebar')
+                @include('account.sidebar')
             </div>
             <div class="col-lg-9">
                 @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
-            @endif
+                @endif
                 <form action="{{ route('account.saveCV') }}" method="POST" id="createCVForm" name="createCVForm">
                     @csrf
                     <div class="card border-0 shadow mb-4">
@@ -43,16 +41,16 @@
                                     <input type="text" placeholder="Email" id="email" name="email" class="form-control">
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="jobType" class="mb-2">Job Nature<span class="req">*</span></label>
                                     <select name="jobType" id="jobType" class="form-select">
                                         <option value="">Select Job Type</option>
                                         @if ($jobTypes->isNotEmpty())
-                                            @foreach ($jobTypes as $jobType)
-                                            <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
-                                            @endforeach
+                                        @foreach ($jobTypes as $jobType)
+                                        <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                                        @endforeach
                                         @endif
                                     </select>
                                 </div>
@@ -61,28 +59,31 @@
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select a Category</option>
                                         @if($categories->isNotEmpty())
-                                            @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
+                                        @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                         @endif
                                     </select>
                                 </div>
                             </div>
-    
+
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="address" class="mb-2">Address<span class="req">*</span></label>
-                                    <input type="text" placeholder="Address" id="address" name="address" class="form-control">
+                                    <input type="text" placeholder="Address" id="address" name="address"
+                                        class="form-control">
                                 </div>
                             </div>
-    
+
                             <div class="mb-4">
                                 <label for="education" class="mb-2">Education<span class="req">*</span></label>
-                                <textarea class="form-control" name="education" id="education" cols="5" rows="5" placeholder="Description"></textarea>
+                                <textarea class="form-control" name="education" id="education" cols="5" rows="5"
+                                    placeholder="Description"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="work_experience" class="mb-2">Work experience</label>
-                                <textarea class="form-control" name="work_experience" id="work_experience" cols="5" rows="5" placeholder="Description"></textarea>
+                                <textarea class="form-control" name="work_experience" id="work_experience" cols="5"
+                                    rows="5" placeholder="Description"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="experience" class="mb-2">Experience <span class="req">*</span></label>
@@ -101,10 +102,11 @@
                                 </select>
                                 <p></p>
                             </div>
-    
+
                             <div class="mb-4">
                                 <label for="keywords" class="mb-2">Keywords<span class="req">*</span></label>
-                                <input type="text" placeholder="keywords" id="keywords" name="keywords" class="form-control">
+                                <input type="text" placeholder="keywords" id="keywords" name="keywords"
+                                    class="form-control">
                             </div>
                         </div>
                         <div class="card-footer p-4">

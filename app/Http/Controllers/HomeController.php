@@ -15,6 +15,6 @@ class HomeController extends Controller
         // get random jobs
         $jobs = Job::inRandomOrder()->limit(6)->get();
         $lastestJobs = Job::latest()->limit(6)->get();
-        return view('front.home', ['categories' => $categories, 'jobs' => $jobs], ['lastestJobs' => $lastestJobs]);
+        return view('home', ['categories' => $categories, 'jobs' => $jobs], ['lastestJobs' => $lastestJobs]);
     }
 }
