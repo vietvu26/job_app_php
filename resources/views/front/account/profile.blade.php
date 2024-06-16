@@ -1,4 +1,4 @@
-@extends('font.layouts.app')
+@extends('front.layouts.app')
 @section('main')
 <section class="section-5 bg-2">
     <div class="container py-5">
@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3">
-                @include('font.account.sidebar')
+                @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
                 <div class="card border-0 shadow mb-4">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="" class="mb-2">Email*</label>
-                            <input type="text" placeholder="Enter Email" class="form-control">
+                            <input type="email" placeholder="Enter Email" class="form-control">
                         </div>
                         <div class="mb-4">
                             <label for="" class="mb-2">Designation*</label>
@@ -34,8 +34,8 @@
                         </div>
                         <div class="mb-4">
                             <label for="" class="mb-2">Mobile*</label>
-                            <input type="text" placeholder="Mobile" class="form-control">
-                        </div>                        
+                            <input type="phone" placeholder="Mobile" class="form-control">
+                        </div>
                     </div>
                     <div class="card-footer  p-4">
                         <button type="button" class="btn btn-primary">Update</button>
@@ -56,12 +56,12 @@
                         <div class="mb-4">
                             <label for="" class="mb-2">Confirm Password*</label>
                             <input type="password" placeholder="Confirm Password" class="form-control">
-                        </div>                        
+                        </div>
                     </div>
                     <div class="card-footer  p-4">
                         <button type="button" class="btn btn-primary">Update</button>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

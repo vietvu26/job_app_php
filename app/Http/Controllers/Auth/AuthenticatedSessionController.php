@@ -19,13 +19,25 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
+    public function adminCreate(): View
+    {
+        return view('auth.admin-login');
+    }
 
     /**
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticate('user');
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(RouteServiceProvider::PROFILE);
+    }
+    public function adminStore(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate('admin');
 
         $request->session()->regenerate();
 

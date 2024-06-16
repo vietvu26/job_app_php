@@ -1,8 +1,8 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
+    <h1 class="text-center admin-header">Admin login</h1>
+    <form method="POST" action="{{ route('admin.login') }}">
         @csrf
 
         <!-- Email Address -->
@@ -31,24 +31,25 @@
         </div>
 
         <div class="flex items-center justify-between mt-4 mb-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-3"
-                href="{{ route('admin.login') }}">Admin login</a>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-3"
-                href="{{ route('register') }}">
-                {{ __('Register account') }}
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('login') }}">
+                {{ __('User login') }}
+            </a>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('admin.register') }}">
+                {{ __('Register admin') }}
             </a>
             <div>
                 @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('password.request') }}">
-                    {{ __('Forgot password?') }}
-                </a>
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        href="{{ route('password.request') }}">
+                        {{ __('Forgot password?') }}
+                    </a>
                 @endif
             </div>
-
         </div>
         <div class="flex items-center">
-            <x-primary-button class="block mx-auto">
+            <x-primary-button class="mx-auto">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
