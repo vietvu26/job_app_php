@@ -89,7 +89,7 @@
                                             </p>
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                                <span class="ps-1">{{$job->company}}</span>
+                                                <span class="ps-1">{{$job->jobType->name}}</span>
                                             </p>
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-usd"></i></span>
@@ -97,8 +97,11 @@
                                             </p>
                                         </div>
                                         <div class="d-grid mt-3">
-                                            <a href="{{ route('admin.job.manage', $job->id) }}"
-                                                class="btn btn-primary btn-lg">Details</a>
+                                            @if (Auth::check() && Auth::user()->role == 'admin')
+                                                <a href="{{ route('admin.job.manage', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            @elseif (Auth::check() && Auth::user()->role == 'user')
+                                                <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +134,7 @@
                                             </p>
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                                <span class="ps-1">{{$lastestJob->company}}</span>
+                                                <span class="ps-1">{{$lastestJob->jobType->name}}</span>
                                             </p>
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-usd"></i></span>
@@ -139,9 +142,13 @@
                                             </p>
                                         </div>
                                         <div class="d-grid mt-3">
-                                            <a href="{{ route('admin.job.manage', $lastestJob->id) }}"
-                                                class="btn btn-primary btn-lg">Details</a>
+                                            @if (Auth::check() && Auth::user()->role == 'admin')
+                                                <a href="{{ route('admin.job.manage', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            @elseif (Auth::check() && Auth::user()->role == 'user')
+                                                <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            @endif
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>

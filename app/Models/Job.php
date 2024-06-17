@@ -18,8 +18,21 @@ class Job extends Model
         'company',
         'email',
         'phone',
+        'user_id',
     ];
     protected $hidden = [
         '_token',
     ];
+    public function jobType()
+    {
+        return $this->belongsTo(JobType::class, 'job_type_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(JobType::class, 'category_id');
+    }
+    public function applications() {
+        return $this->hasMany(Application::class);
+    }
+    
 }

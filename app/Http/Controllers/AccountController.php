@@ -14,6 +14,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\File;
 use function Laravel\Prompts\error;
 use App\Models\CV;
+use App\Models\Application;
 
 class AccountController extends Controller
 {
@@ -31,7 +32,7 @@ class AccountController extends Controller
     {
         $id = Auth::user()->id;
         $user = User::where('id', $id)->first();
-        return view('user.account.profile', [
+        return view('account.profile', [
             'user' => $user,
         ]);
     }
@@ -45,6 +46,7 @@ class AccountController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'designation' => 'nullable|string|max:255',
             'mobile' => 'nullable|string|max:20',
+            'image' => 'required|image'
         ]);
 
         // Update the user with the validated data
@@ -52,6 +54,8 @@ class AccountController extends Controller
         $user->email = $request->input('email');
         $user->designation = $request->input('designation');
         $user->mobile = $request->input('mobile');
+        $user->image = $request->input('image');
+
         $user->save();
 
         return redirect()->route('account.profile')->with('success', 'Profile updated successfully.');
@@ -89,7 +93,7 @@ class AccountController extends Controller
 
             session()->flash('success', 'Profile picture updated successfully.');
 
-            return redirect()->route('account.profile'); // Adjust this route to match your profile route
+            return redirect()->route('account.profile'); 
         } else {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -132,6 +136,16 @@ class AccountController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'CV saved successfully!');
+    }
+    public function myJobApplications(){
+        $jobApplications = Application::where('user_id',Auth::user()->id)
+                ->with(['job','job.jobType','job.applications'])
+                ->orderBy('created_at','DESC')
+                ->paginate(10);
+
+        return view('user.account.job.my-job-apply',[
+            'jobApplications' => $jobApplications
+        ]);
     }
 
 

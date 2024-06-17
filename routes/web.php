@@ -6,6 +6,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\FindController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,18 @@ Route::get(
     // return view('front.home');
     [HomeController::class, 'index']
 )->name('home');
-
+Route::get(
+    '/findjob',
+    // return view('front.home');
+    [FindController::class, 'index']
+)->name('find');
+Route::get(
+    '/jobs/detail/{id}',
+    // return view('front.home');
+    [HomeController::class, 'detail']
+)->name('jobDetail');
+Route::post('/apply-job',[HomeController::class, 'applyJob'])->name('applyJob');
+Route::post('/save-job',[HomeController::class, 'savedJob'])->name('savedJob');
 Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
 
 Route::get('/dashboard', function () {
@@ -40,11 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/account/profile', [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
     Route::get('/create-cv', [AccountController::class, 'createcv'])->name('account.createcv');
     Route::post('/save-cv', [AccountController::class, 'savecv'])->name('account.saveCV');
+    Route::get('/my-job-applications', [AccountController::class, 'myJobApplications'])->name('account.myJobApplications');
+
 });
 
-Route::get('/account/profile', function () {
-    return view('account.profile');
-})->middleware(['auth', 'verified'])->name('account');
+// Route::get('/account/profile', function () {
+//     return view('account.profile');
+// })->middleware(['auth', 'verified'])->name('account');
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

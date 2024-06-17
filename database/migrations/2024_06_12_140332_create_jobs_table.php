@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('job_type_id')->constrained()->onDelete('cascade');
-            $table->integer('vacancy');
-            $table->string('salary')->nullable();
-            $table->string('location');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('vacancy')->nullable();
+            $table->string('salary');
+            $table->string('location')->nullable();
             $table->text('description')->nullable();
-            $table->text('benefits')->nullable();
+            $table->text('benefits');
             $table->text('responsibility')->nullable();
             $table->text('qualifications')->nullable();
             $table->text('keywords')->nullable();
@@ -28,9 +29,7 @@ return new class extends Migration
             $table->text('company_name');
             $table->text('company_location')->nullable();
             $table->text('company_website')->nullable();
-
-
-
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

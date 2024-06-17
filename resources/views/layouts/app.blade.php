@@ -43,12 +43,16 @@
                                                                     </li>
                                                                     @endif -->
                             <!-- Check if role is admin then show link Find Candidate else if role is user then show link Find Jobs   -->
-                            @if (@auth()->user()->role == 'admin')
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Find
-                                        Candidate</a>
-                                </li>
-                            @endif
+                            @if (auth()->user()->role == 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Find Candidate</a>
+                            </li>
+                        @elseif (auth()->user()->role == 'user')
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{ route('find')}}">Find Jobs</a>
+                            </li>
+                        @endif
+                        
                         @endauth
                     </ul>
                     <!-- check if logged in them hide login button -->
@@ -74,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-primary me-2" href="{{ route('account') }}" type="submit">Account</a>
+                        <a class="btn btn-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="btn btn-outline-primary" href="{{ route('logout') }}"
@@ -96,21 +100,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="{{ route('account.updateProfilePic') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Profile Image</label>
-                            <input type="file" class="form-control" id="image" name="image">
+                            <label for="image" class="form-label">Profile Image</label>
+                            <input type="file" class="form-control" id="image" name="image" required>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary mx-3">Update</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
 
     <footer class="bg-dark py-3 bg-2">
         <div class="container">
