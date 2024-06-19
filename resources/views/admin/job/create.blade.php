@@ -19,19 +19,32 @@
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
-    <!-- select category -->
     <div class="form-group">
-        <label for="category">Category</label>
-        <select name="category" id="category" class="form-control">
+        <label for="category_id">Category</label>
+        <select name="category_id" id="category_id" class="form-control">
             <option value="">Select Category</option>
             @foreach($categories as $category)
             <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
-        @error('category')
+        @error('category_id')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
+    <!-- select job type -->
+    <div class="form-group">
+        <label for="job_type_id">Job Type</label>
+        <select name="job_type_id" id="job_type_id" class="form-control">
+            <option value="">Select Job Type</option>
+            @foreach($jobTypes as $jobType)
+            <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+            @endforeach
+        </select>
+        @error('job_type_id')
+        <div class="error-validate mt-3">{{ $message }}</div>
+        @enderror
+    </div>
+    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
     <div class="form-group">
         <label for="description">Description</label>
         <textarea name="description" id="description" class="form-control">{{old('description')}}</textarea>
@@ -40,9 +53,9 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="location">Location</label>
-        <input type="text" name="location" id="location" value="{{old('location')}}" class="form-control">
-        @error('location')
+        <label for="benefits">Benefits</label>
+        <textarea name="benefits" id="benefits" class="form-control">{{old('benefits')}}</textarea>
+        @error('benefits')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
@@ -53,24 +66,26 @@
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
+    <!-- experience -->
     <div class="form-group">
-        <label for="company">Company</label>
-        <input type="text" name="company" id="company" value="{{old('company')}}" class="form-control">
-        @error('company')
+        <label for="experience">Experience</label>
+        <input type="text" name="experience" id="experience" value="{{old('experience')}}" class="form-control">
+        @error('experience')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
     <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="{{old('email')}}" class="form-control">
-        @error('email')
+        <label for="company_name">Company name</label>
+        <input type="text" name="company_name" id="company_name" value="{{old('company_name')}}" class="form-control">
+        @error('company_name')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
     <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone" value="{{old('phone')}}" class="form-control">
-        @error('phone')
+        <label for="company_location">Company location</label>
+        <input type="text" name="company_location" id="company_location" value="{{old('company_location')}}"
+            class="form-control">
+        @error('company_location')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>

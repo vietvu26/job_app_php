@@ -48,7 +48,8 @@
 .form-group {
     margin-bottom: 1.5em;
 }
-.form-group #description {
+.form-group #description,
+.form-group #benefits {
     height: 100px;
 }
 .form-group .error-validate {

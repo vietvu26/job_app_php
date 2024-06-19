@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\JobType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,21 +15,22 @@ class JobController extends Controller
     public function create()
     {
         // list categories
-        $categories = Category::all();
-        return view('admin.job.create', ['categories' => $categories]);
+        $categories = Category::all()->sortBy('name');
+        $jobTypes = JobType::all()->sortBy('name');
+        return view('admin.job.create', ['categories' => $categories, 'jobTypes' => $jobTypes]);
         // return view('front.admin.job.create', ['categories' => []]);
     }
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
+            'job_type_id' => 'required',
             'description' => 'required',
-            'location' => 'required',
+            'company_location' => 'required',
             'salary' => ['required', 'numeric', 'min:1'],
-            'company' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'numeric', 'digits:10'],
+            'company_name' => 'required',
+            'experience' => 'required',
         ]);
         Job::create($request->all());
         return redirect()->route('admin.job.create')->with('success', 'Job created successfully');
@@ -51,20 +53,32 @@ class JobController extends Controller
     }
     public function edit(Job $job)
     {
-        return view('admin.job.edit', ['job' => $job]);
+        $categories = Category::all()->sortBy('name');
+        $jobTypes = JobType::all()->sortBy('name');
+        return view('admin.job.edit', ['job' => $job, 'categories' => $categories, 'jobTypes' => $jobTypes]);
     }
     public function update(Request $request, Job $job)
     {
         $request->validate([
             'title' => 'required',
+            'category_id' => 'required',
+            'job_type_id' => 'required',
             'description' => 'required',
-            'location' => 'required',
+            'company_location' => 'required',
             'salary' => ['required', 'numeric', 'min:1'],
-            'company' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'numeric', 'digits:10'],
+            'company_name' => 'required',
+            'experience' => 'required',
         ]);
-        if ($job->title == $request->title && $job->description == $request->description && $job->location == $request->location && $job->salary == $request->salary && $job->company == $request->company && $job->email == $request->email && $job->phone == $request->phone) {
+        if (
+            $job->title == $request->title &&
+            $job->category_id == $request->category_id &&
+            $job->job_type_id == $request->job_type_id &&
+            $job->description == $request->description &&
+            $job->company_location == $request->company_location &&
+            $job->salary == $request->salary &&
+            $job->company_name == $request->company_name &&
+            $job->experience == $request->experience
+        ) {
             return redirect()->route('admin.job.edit', $job)->with('error', 'No changes made to update');
         }
         $job->update($request->all());
