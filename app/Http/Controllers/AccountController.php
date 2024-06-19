@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use function Laravel\Prompts\error;
 use App\Models\CV;
 use App\Models\Application;
+use App\Models\SavedJob;
 
 class AccountController extends Controller
 {
@@ -37,29 +38,37 @@ class AccountController extends Controller
         ]);
     }
     public function updateProfile(Request $request)
-    {
-        $id = Auth::user()->id;
-        $user = User::where('id', $id)->first();
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'designation' => 'nullable|string|max:255',
-            'mobile' => 'nullable|string|max:20',
-            'image' => 'required|image'
-        ]);
+{
+    $id = Auth::user()->id;
+    $user = User::where('id', $id)->first();
 
-        // Update the user with the validated data
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->designation = $request->input('designation');
-        $user->mobile = $request->input('mobile');
-        $user->image = $request->input('image');
+    // Validate the request data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        'designation' => 'nullable|string|max:255',
+        'mobile' => 'nullable|string|max:20'
+    ]);
 
-        $user->save();
+    // Update the user with the validated data
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    $user->designation = $request->input('designation');
+    $user->mobile = $request->input('mobile');
 
-        return redirect()->route('account.profile')->with('success', 'Profile updated successfully.');
+    // Handle image upload if applicable
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $filename);
+        $user->image = $filename;
     }
+
+    $user->save();
+
+    return redirect()->route('account.profile')->with('success', 'Profile updated successfully.');
+}
+
     public function updateProfilePic(Request $request)
     {
         //dd($request->all());
@@ -147,6 +156,30 @@ class AccountController extends Controller
             'jobApplications' => $jobApplications
         ]);
     }
+    public function savejobs(){
+        $savejobs = SavedJob::where('user_id',Auth::user()->id)
+                ->with(['job','job.jobType','job.applications'])
+                ->orderBy('created_at','DESC')
+                ->paginate(10);
+
+        return view('user.account.job.save-job',[
+            'savejobs' => $savejobs
+        ]);
+    }
+    public function deleteapply($id)
+{
+    $jobApplication = Application::findOrFail($id);
+    $jobApplication->delete();
+    
+    return redirect()->route('account.myJobApplications')->with('success', 'Job application deleted successfully.');
+}
+public function deletesave($id)
+{
+    $savejobs = SavedJob::findOrFail($id);
+    $savejobs->delete();
+    
+    return redirect()->route('account.savejobs')->with('success', 'Job saved deleted successfully.');
+}
 
 
 

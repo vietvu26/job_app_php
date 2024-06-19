@@ -30,48 +30,49 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('profile.update') }}">
+                        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
-
+                        
                             <div class="mb-4">
                                 <label for="name" class="mb-2">Name*</label>
                                 <input type="text" name="name" id="name" placeholder="Enter Name" class="form-control"
-                                    value="{{ old('name', $user->name) }}">
+                                       value="{{ old('name', $user->name) }}">
                                 @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
+                        
                             <div class="mb-4">
                                 <label for="email" class="mb-2">Email*</label>
                                 <input type="email" name="email" id="email" placeholder="Enter Email"
-                                    class="form-control" value="{{ old('email', $user->email) }}">
+                                       class="form-control" value="{{ old('email', $user->email) }}">
                                 @error('email')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
+                        
                             <div class="mb-4">
                                 <label for="designation" class="mb-2">Designation</label>
                                 <input type="text" name="designation" id="designation" placeholder="Designation"
-                                    class="form-control" value="{{ old('designation', $user->designation) }}">
+                                       class="form-control" value="{{ old('designation', $user->designation) }}">
                                 @error('designation')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
+                        
                             <div class="mb-4">
                                 <label for="mobile" class="mb-2">Mobile</label>
                                 <input type="text" name="mobile" id="mobile" placeholder="Mobile" class="form-control"
-                                    value="{{ old('mobile', $user->mobile) }}">
+                                       value="{{ old('mobile', $user->mobile) }}">
                                 @error('mobile')
-                                    <div class="text-danger">{{ $message }}</div>
+                                <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
+                        
                             <button type="submit" class="btn btn-primary">Update Profile</button>
                         </form>
+                        
                     </div>
                 </div>
             </div>
