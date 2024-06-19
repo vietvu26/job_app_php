@@ -1,18 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Application;
+use App\Models\CV;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function index($user_id, Request $request)
+    {
+        $user = User::find($user_id);
+        $cv = CV::where('user_id', $user_id)->first();
+        $job_query = $request->query('id');
+        $jobApplication = Application::where('job_id', $job_query)->where('user_id', $user_id)->first();
+        return view('profile', [
+            'user' => $user,
+            'cv' => $cv,
+            'jobApplication' => $jobApplication,
+        ]);
+    }
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -20,7 +36,7 @@ class ProfileController extends Controller
         ]);
     }
 
-   
+
     /**
      * Update the user's profile information.
      */

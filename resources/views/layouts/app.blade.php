@@ -32,58 +32,41 @@
                             <a class="nav-link" aria-current="page" href="/">Home</a>
                         </li>
                         @auth
-                            <!-- @if (@auth()->user()->role == 'admin')
-                                                                    <li class="nav-item">
-                                                                        <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Find
-                                                                            Candidate</a>
-                                                                    </li>
-                                                                    @elseif (@auth()->user()->role == 'user')
-                                                                    <li class="nav-item">
-                                                                        <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
-                                                                    </li>
-                                                                    @endif -->
-                            <!-- Check if role is admin then show link Find Candidate else if role is user then show link Find Jobs   -->
-                            @if (auth()->user()->role == 'admin')
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Find Candidate</a>
-                            </li>
+                        <!-- @if (@auth()->user()->role == 'admin')
+                                                                            <li class="nav-item">
+                                                                                <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Find
+                                                                                    Candidate</a>
+                                                                            </li>
+                                                                            @elseif (@auth()->user()->role == 'user')
+                                                                            <li class="nav-item">
+                                                                                <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
+                                                                            </li>
+                                                                            @endif -->
+                        <!-- Check if role is admin then show link Find Candidate else if role is user then show link Find Jobs   -->
+                        @if (auth()->user()->role == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ route('admin.job.manage') }}">Manage
+                                Jobs</a>
+                        </li>
                         @elseif (auth()->user()->role == 'user')
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{ route('find')}}">Find Jobs</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{ route('find')}}">Find Jobs</a>
+                        </li>
                         @endif
-                        
+
                         @endauth
                     </ul>
                     <!-- check if logged in them hide login button -->
                     @if (!Auth::check())
-                        <a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>
+                    <a class="btn btn-outline-primary me-2" href="{{ route('login') }}" type="submit">Login</a>
                     @endif
                     @if (Auth::check())
-                        <!-- notification list that notify new candicate apply to job if role is admin-->
-                        <div class="notification me-2">
-                            <button class="notification-btn">
-                                <i class="fa fa-bell"></i>
-                                <span class="badge">3</span>
-                            </button>
-                            <div class="notification-list">
-                                <div class="notification-item">
-                                    <p class="mb-0">New Candidate Apply for Job</p>
-                                </div>
-                                <div class="notification-item">
-                                    <p class="mb-0">New Candidate Apply for Job</p>
-                                </div>
-                                <div class="notification-item">
-                                    <p class="mb-0">New Candidate Apply for Job</p>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="btn btn-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button class="btn btn-outline-primary" href="{{ route('logout') }}"
-                                type="submit">Logout</button>
-                        </form>
+                    <a class="btn btn-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="btn btn-outline-primary" href="{{ route('logout') }}"
+                            type="submit">Logout</button>
+                    </form>
                     @endif
                 </div>
             </div>

@@ -24,12 +24,12 @@ Route::get(
     // return view('front.home');
     [HomeController::class, 'index']
 )->name('home');
-Route::get('/findjob',[FindController::class, 'index'])->name('find');
-Route::get('/jobs/detail/{id}',[HomeController::class, 'detail'])->name('jobDetail');
-Route::get('/my-job-applications/delete/{id}',[HomeController::class, 'deleteapply'])->name('deletejobapply');
-Route::get('/my-job-save/delete/{id}',[HomeController::class, 'deletesave'])->name('deletejobsave');
-Route::post('/apply-job',[HomeController::class, 'applyJob'])->name('applyJob');
-Route::post('/save-job',[HomeController::class, 'savedJob'])->name('savedJob');
+Route::get('/findjob', [FindController::class, 'index'])->name('find');
+Route::get('/jobs/detail/{id}', [HomeController::class, 'detail'])->name('jobDetail');
+Route::get('/my-job-applications/delete/{id}', [HomeController::class, 'deleteapply'])->name('deletejobapply');
+Route::get('/my-job-save/delete/{id}', [HomeController::class, 'deletesave'])->name('deletejobsave');
+Route::post('/apply-job', [HomeController::class, 'applyJob'])->name('applyJob');
+Route::post('/save-job', [HomeController::class, 'savedJob'])->name('savedJob');
 Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
 Route::get('/find', [FindController::class, 'findjob'])->name('findjob');
 
@@ -71,7 +71,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/job/edit/{job}', [JobController::class, 'edit'])->name('admin.job.edit');
     Route::patch('/admin/job/edit/{job}', [JobController::class, 'update'])->name('admin.job.update');
 
-    Route::get('/admin/job/delete/{id}', [JobController::class, 'delete'])->name('admin.job.delete');
+    Route::delete('/admin/job/delete/{id}', [JobController::class, 'delete'])->name('admin.job.delete');
+
+    Route::get('/profile/{user_id}', [ProfileController::class, 'index'])->name('profile');
+
+    Route::put('/admin/job/review/{id}', [JobController::class, 'review'])->name('admin.job.review');
 
     // Category
     Route::get('/admin/category/create', [CategoryController::class, 'create'])->name('admin.category.create');

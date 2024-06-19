@@ -1,45 +1,8 @@
-.notification {
-    position: relative;
+body {
+    font-family: "Inter-Regular";
 }
-.notification .notification-btn {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    padding: 10px;
-    border: 1px solid #a8df8e;
-    border-radius: 50%;
-    background-color: transparent;
-    color: #a8df8e;
-}
-.notification .notification-btn .badge {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #dc3545;
-    color: #fff;
-    padding: 5px;
-    border-radius: 50%;
-    font-size: 0.8em;
-}
-.notification .notification-list {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 300px;
-    background-color: #fff;
-    border: 1px solid #a8df8e;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-.notification .notification-list.active {
-    opacity: 1;
-    visibility: visible;
+span {
+    font-size: 1em;
 }
 .admin-header {
     font-size: 1.5em;
@@ -97,6 +60,22 @@
 .manage-job .table .list-candidate {
     display: block;
 }
-.manage-job .table .btn-action a {
+.manage-job .table .btn-action .edit-button,
+.manage-job .table .btn-action .delete-button {
     display: block;
+    width: 100%;
+}
+.card-profile {
+    max-width: 500px;
+    margin: 0 auto;
+}
+.card-profile .avt {
+    width: 150px;
+    height: 150px;
+}
+.card-profile .profile-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
 }

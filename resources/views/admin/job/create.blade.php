@@ -66,10 +66,14 @@
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror
     </div>
-    <!-- experience -->
     <div class="form-group">
-        <label for="experience">Experience</label>
-        <input type="text" name="experience" id="experience" value="{{old('experience')}}" class="form-control">
+        <label for="experience">Experience require</label>
+        <select name="experience" id="experience" class="form-control">
+            <option value="">Select Experience</option>
+            @for ($i = 1; $i <= 10; $i++) <option value="{{ $i }}">{{ $i }} Year{{ $i > 1 ? 's' : '' }}</option>
+                @endfor
+                <option value="10+">10+ Years</option>
+        </select>
         @error('experience')
         <div class="error-validate mt-3">{{ $message }}</div>
         @enderror

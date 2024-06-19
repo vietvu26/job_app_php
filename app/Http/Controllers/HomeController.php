@@ -30,11 +30,13 @@ class HomeController extends Controller
             ->with('jobType')
             ->orderBy('created_at', 'DESC')
             ->take(6)->get();
+        $countJobByCategory = Job::select('category_id')->selectRaw('count(*) as total')->groupBy('category_id')->get();
         return view('home', [
             'categories' => $categories,
             'jobs' => $jobs,
             'latestJobs' => $latestJobs,
-            'newCategories' => $newCategories
+            'newCategories' => $newCategories,
+            'countJobByCategory' => $countJobByCategory,
         ]);
     }
     public function detail($id)
@@ -74,11 +76,12 @@ class HomeController extends Controller
 
         if ($jobApplicationCount > 0) {
             $message = 'You already applied on this job.';
-            session()->flash('error', $message);
-            return response()->json([
-                'status' => false,
-                'message' => $message
-            ]);
+            // session()->flash('error', $message);
+            // return response()->json([
+            //     'status' => false,
+            //     'message' => $message
+            // ]);
+            return redirect()->route('jobDetail', ['id' => $id])->with('error', $message);
         }
         $employer_id = $job->user_id;
         $application = new Application();
@@ -114,11 +117,7 @@ class HomeController extends Controller
         ])->count();
 
         if ($count > 0) {
-            session()->flash('error', 'You already saved this job.');
-
-            return response()->json([
-                'status' => false,
-            ]);
+            return redirect()->route('jobDetail', ['id' => $id])->with('error', 'You already saved this job.');
         }
 
         $savedJob = new SavedJob;

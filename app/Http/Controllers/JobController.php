@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\JobType;
@@ -37,17 +38,11 @@ class JobController extends Controller
     }
     public function manage()
     {
-        $jobs = Job::latest()->paginate(3);
+        $jobs = Job::latest()->with('applications.user')->paginate(3);
         foreach ($jobs as $job) {
-            $candidates = json_decode($job->candidates);
-            // candidates is an array of user ids
-            // $candidates = User::whereIn('id', $candidates)->get();
-            if ($candidates) {
-                $candidates = User::whereIn('id', $candidates)->get();
-            } else {
-                $candidates = [];
-            }
-            $job->candidates = $candidates;
+            $job->candidates = $job->applications->map(function ($application) {
+                return $application->user;
+            });
         }
         return view('admin.job.manage', ['jobs' => $jobs]);
     }
@@ -84,9 +79,36 @@ class JobController extends Controller
         $job->update($request->all());
         return redirect()->route('admin.job.edit', $job)->with('success', 'Job updated successfully');
     }
-    public function delete(Job $job)
+    public function delete($id)
     {
-        $job->delete();
+        $job = Job::find($id);
+        // dd($job);
+        // $job->delete();
+        // dd($id);
+        if ($job == null) {
+            return redirect()->route('admin.job.manage')->with('error', 'Job not found');
+        } else {
+            // $job->delete();
+            $job->status = 0;
+            $job->save();
+        }
         return redirect()->route('admin.job.manage')->with('success', 'Job deleted successfully');
+    }
+    public function review(Request $request, $id)
+    {
+        $jobApplication = Application::where([
+            'user_id' => $id,
+            'id' => $request->query('application_id'),
+        ])->first();
+        if ($jobApplication->status == 'accepted' && $request->input('status') == 'rejected') {
+            $jobApplication->status = 'rejected';
+            $jobApplication->save();
+            return redirect()->route('admin.job.manage')->with('success', 'Application rejected');
+        }
+        if ($jobApplication->status == 'rejected' && $request->input('status') == 'accepted') {
+            $jobApplication->status = 'accepted';
+            $jobApplication->save();
+            return redirect()->route('admin.job.manage')->with('success', 'Application accepted');
+        }
     }
 }

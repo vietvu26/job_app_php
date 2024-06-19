@@ -31,6 +31,7 @@
                                 <thead class="bg-light">
                                     <tr>
                                         <th scope="col">Title</th>
+                                        <th scope="col">Job Type</th>
                                         <th scope="col">Applied Date</th>
                                         <th scope="col">Applicants</th>
                                         <th scope="col">Status</th>
@@ -39,38 +40,55 @@
                                 </thead>
                                 <tbody class="border-0">
                                     @if ($jobApplications->isNotEmpty())
-                                        @foreach ($jobApplications as $jobApplication)
-                                            <tr class="active">
-                                                <td>
-                                                    <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                    <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->format('d M, Y') }}</td>
-                                                <td>{{ $jobApplication->job->applications->count() }} Applications</td>
-                                                <td>
-                                                    @if ($jobApplication->status == 1)
-                                                        <div class="job-status text-capitalize">Approved</div>
-                                                    @else
-                                                        <div class="job-status text-capitalize">Awaiting Review</div>
-                                                    @endif                                    
-                                                </td>
-                                                <td>
-                                                    <div class="action-dots float-end">
-                                                        <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li><a class="dropdown-item" href="{{ route("jobDetail", $jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                            <li><a class="dropdown-item" href="{{ route("deletejobapply", $jobApplication->id) }}"  ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                    @foreach ($jobApplications as $jobApplication)
+                                    <tr class="active">
+                                        <td>
+                                            <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
+                                            <div class="info1">{{ $jobApplication->job->jobType->name }} .
+                                                {{ $jobApplication->job->location }}</div>
+                                        </td>
+                                        <td>{{ $jobApplication->job->jobType->name }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->format('d M, Y') }}
+                                        </td>
+                                        <td>{{ $jobApplication->job->applications->count() }} Applications</td>
+                                        <td>
+                                            @if ($jobApplication->status == 'accepted')
+                                            <div class="job-status text-capitalize">
+                                                <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                                                Accepted
+                                            </div>
+                                            @elseif ($jobApplication->status == 'rejected')
+                                            <div class="job-status text-capitalize">
+                                                <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+                                                Rejected
+                                            </div>
+                                            @else
+                                            <div class="job-status text-capitalize">Awaiting Review</div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="action-dots float-end">
+                                                <button href="#" class="btn" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route("jobDetail", $jobApplication->job_id) }}"> <i
+                                                                class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route("deletejobapply", $jobApplication->id) }}"><i
+                                                                class="fa fa-trash" aria-hidden="true"></i> Remove</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                     @else
-                                        <tr>
-                                            <td colspan="5">Job Applications not found</td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="5">Job Applications not found</td>
+                                    </tr>
                                     @endif
 
 
