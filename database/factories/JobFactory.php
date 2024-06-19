@@ -18,12 +18,14 @@ class JobFactory extends Factory
     {
         return [
             'title' => fake()->name,
-            'id' => 3,
+            // 'id' => rand(4,20),
             'job_type_id' => rand(1,5),
             'category_id' => rand(1,5),
             'vacancy' => rand(1,5),
+            'salary' => rand(1000,5000),
             'location' => fake()->city,
             'description' => fake()->text,
+            'benefits' => fake()->text,
             'experience' => rand(1,10),
             'company_name' => fake()->name,   
             'user_id' => User::factory(),         

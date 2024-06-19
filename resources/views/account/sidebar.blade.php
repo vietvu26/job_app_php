@@ -34,7 +34,7 @@
                 <a href="{{ route('account.myJobApplications') }}">Jobs Applied</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="">Saved Jobs</a>
+                <a href="{{ route('account.savejobs') }}">Saved Jobs</a>
             </li>
             @elseif (@auth()->user()->role == 'admin')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">

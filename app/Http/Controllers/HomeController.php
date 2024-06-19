@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\Job;
+use App\Models\JobType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SavedJob;
@@ -14,11 +15,27 @@ class HomeController extends Controller
     //
     public function index()
     {
-        $categories = Category::all();
-        // get random jobs
+        
         $jobs = Job::inRandomOrder()->limit(6)->get();
-        $lastestJobs = Job::latest()->limit(6)->get();
-        return view('home', ['categories' => $categories, 'jobs' => $jobs], ['lastestJobs' => $lastestJobs]);
+        $categories = Category::where('status',1)->orderBy('name','ASC')->take(8)->get();
+
+        $newCategories = Category::where('status',1)->orderBy('name','ASC')->get();
+
+        $featuredJobs = Job::where('status',1)
+                        ->orderBy('created_at','DESC')
+                        ->with('jobType')
+                        ->take(6)->get();
+
+        $latestJobs = Job::where('status',1)
+                        ->with('jobType')
+                        ->orderBy('created_at','DESC')
+                        ->take(6)->get();
+        return view('home', [
+            'categories' => $categories,
+             'jobs' => $jobs,
+             'latestJobs' => $latestJobs,
+             'newCategories' => $newCategories
+            ]);
     }
     public function detail($id){
         $job = Job::where([
@@ -32,6 +49,9 @@ class HomeController extends Controller
     }
 
     public function applyJob(Request $request) {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'You need to login first.');
+        }
         $id = $request->id;
 
         $job = Job::where('id',$id)->first();
@@ -69,6 +89,9 @@ class HomeController extends Controller
 
     }
     public function savedJob(Request $request) {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'You need to login first.');
+        }
         $id = $request->id;
 
         $job = Job::where('id',$id)->first();
@@ -102,6 +125,25 @@ class HomeController extends Controller
         return redirect()->route('jobDetail', ['id' => $id])->with('success', 'Save job successfully.');
 
     }
+    public function deleteapply($id)
+{
+    $jobApplication = Application::findOrFail($id);
+    $jobApplication->delete();
+    
+    return redirect()->route('account.myJobApplications')->with('success', 'Job application deleted successfully.');
+}
+public function deletesave($id)
+{
+    $savejobs = SavedJob::findOrFail($id);
+    $savejobs->delete();
+    
+    return redirect()->route('account.savejobs')->with('success', 'Job saved deleted successfully.');
+}
+
+    
+    
+
+    
     
 
 }

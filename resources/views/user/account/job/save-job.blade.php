@@ -33,35 +33,35 @@
                                         <th scope="col">Title</th>
                                         <th scope="col">Applied Date</th>
                                         <th scope="col">Applicants</th>
-                                        <th scope="col">Status</th>
+                                        {{-- <th scope="col">Status</th> --}}
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
-                                    @if ($jobApplications->isNotEmpty())
-                                        @foreach ($jobApplications as $jobApplication)
+                                    @if ($savejobs->isNotEmpty())
+                                        @foreach ($savejobs as $savejob)
                                         <tr class="active">
                                             <td>
-                                                <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}</div>
+                                                <div class="job-name fw-500">{{ $savejob->job->title }}</div>
+                                                <div class="info1">{{ $savejob->job->jobType->name }} . {{ $savejob->job->location }}</div>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($jobApplication->applied_date)->format('d M, Y') }}</td>
-                                            <td>{{ $jobApplication->job->applications->count() }} Applications</td>
-                                            <td>
-                                                @if ($jobApplication->status == 1)
-                                                <div class="job-status text-capitalize">Approved</div>
+                                            <td>{{ \Carbon\Carbon::parse($savejob->applied_date)->format('d M, Y') }}</td>
+                                            <td>{{ $savejob->job->applications->count() }} Applications</td>
+                                            {{-- <td>
+                                                @if ($savejob->job->status == 1)
+                                                <div class="job-status text-capitalize">Active</div>
                                                 @else
-                                                <div class="job-status text-capitalize">Awaiting Review</div>
+                                                <div class="job-status text-capitalize">Block</div>
                                                 @endif                                    
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <div class="action-dots float-end">
                                                     <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$jobApplication->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                        <li><a class="dropdown-item" href="{{ route("deletejobapply",$jobApplication->id) }}"  ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route("jobDetail",$savejob->job_id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
+                                                        <li><a class="dropdown-item" href="{{ route("deletejobsave",$savejob->id) }}"  ><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -69,7 +69,7 @@
                                         @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="5">Job Applications not found</td>
+                                        <td colspan="5">Job save empty</td>
                                     </tr>
                                     @endif
                                     
@@ -78,7 +78,7 @@
                             </table>
                         </div>
                         <div>
-                            {{ $jobApplications->links() }}
+                            {{ $savejobs->links() }}
                         </div>
                     </div>
                 </div>                

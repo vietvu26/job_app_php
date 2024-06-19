@@ -12,41 +12,47 @@
         </div>
     </div>
 </section>
-
+<style>
+    .job-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Số dòng muốn giới hạn */
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 
 <section class="section-1 py-5 ">
     <div class="container">
         <div class="card border-0 shadow p-5">
-            <div class="row">
-                <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                    <input type="text" class="form-control" name="search" id="search" placeholder="Keywords">
-                </div>
-                <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                    <input type="text" class="form-control" name="search" id="search" placeholder="Location">
-                </div>
-                <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
-                    <!-- <select name="category" id="category" class="form-control">
-                        <option value="">Select a Category</option>
-                        <option value="">Engineering</option>
-                        <option value="">Accountant</option>
-                        <option value="">Information Technology</option>
-                        <option value="">Fashion designing</option>
-                    </select> -->
-                    <select name="category" id="category" class="form-control">
-                        <option value="">Select a Category</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class=" col-md-3 mb-xs-3 mb-sm-3 mb-lg-0">
-                    <div class="d-grid gap-2">
-                        <a href="jobs.html" class="btn btn-primary btn-block">Search</a>
+            <form action="{{ route("findjob") }}">
+                <div class="row">
+                    <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
+                        <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Keywords">
                     </div>
-
+                    <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
+                        <input type="text" class="form-control" name="location" id="location" placeholder="Location">
+                    </div>
+                    <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
+                        <select name="category" id="category" class="form-control">
+                            <option value="">Select a Category</option>
+                            @if ($newCategories->isNotEmpty())
+                                @foreach ($newCategories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>  
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+    
+                    <div class=" col-md-3 mb-xs-3 mb-sm-3 mb-lg-0">
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        </div>
+    
+                    </div>
                 </div>
-            </div>
+            </form>
+            
         </div>
     </div>
 </section>
@@ -81,7 +87,7 @@
                                 <div class="card border-0 p-3 shadow mb-4">
                                     <div class="card-body">
                                         <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
-                                        <p>{{ $job->description }}</p>
+                                        <p class="job-description">{{ $job->description }}</p>
                                         <div class="bg-light p-3 border">
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -99,9 +105,10 @@
                                         <div class="d-grid mt-3">
                                             @if (Auth::check() && Auth::user()->role == 'admin')
                                                 <a href="{{ route('admin.job.manage', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
-                                            @elseif (Auth::check() && Auth::user()->role == 'user')
-                                                <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            {{-- @elseif (Auth::check() && Auth::user()->role == 'user') --}}
+                                                
                                             @endif
+                                            <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                         </div>
                                     </div>
                                 </div>
@@ -121,12 +128,12 @@
             <div class="job_listing_area">
                 <div class="job_lists">
                     <div class="row">
-                        @foreach ($lastestJobs as $lastestJob)
+                        @foreach ($latestJobs as $lastestJob)
                             <div class="col-md-4">
                                 <div class="card border-0 p-3 shadow mb-4">
                                     <div class="card-body">
                                         <h3 class="border-0 fs-5 pb-2 mb-0">{{ $lastestJob->title }}</h3>
-                                        <p>{{ $lastestJob->description }}</p>
+                                        <p class="job-description">{{ $lastestJob->description }}</p>
                                         <div class="bg-light p-3 border">
                                             <p class="mb-0">
                                                 <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -144,9 +151,10 @@
                                         <div class="d-grid mt-3">
                                             @if (Auth::check() && Auth::user()->role == 'admin')
                                                 <a href="{{ route('admin.job.manage', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
-                                            @elseif (Auth::check() && Auth::user()->role == 'user')
-                                                <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
+                                            {{-- @elseif (Auth::check() && Auth::user()->role == 'user') --}}
+                                                
                                             @endif
+                                            <a href="{{ route('jobDetail', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                         </div>
                                         
                                     </div>

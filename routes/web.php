@@ -24,19 +24,14 @@ Route::get(
     // return view('front.home');
     [HomeController::class, 'index']
 )->name('home');
-Route::get(
-    '/findjob',
-    // return view('front.home');
-    [FindController::class, 'index']
-)->name('find');
-Route::get(
-    '/jobs/detail/{id}',
-    // return view('front.home');
-    [HomeController::class, 'detail']
-)->name('jobDetail');
+Route::get('/findjob',[FindController::class, 'index'])->name('find');
+Route::get('/jobs/detail/{id}',[HomeController::class, 'detail'])->name('jobDetail');
+Route::get('/my-job-applications/delete/{id}',[HomeController::class, 'deleteapply'])->name('deletejobapply');
+Route::get('/my-job-save/delete/{id}',[HomeController::class, 'deletesave'])->name('deletejobsave');
 Route::post('/apply-job',[HomeController::class, 'applyJob'])->name('applyJob');
 Route::post('/save-job',[HomeController::class, 'savedJob'])->name('savedJob');
 Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
+Route::get('/find', [FindController::class, 'findjob'])->name('findjob');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -53,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/create-cv', [AccountController::class, 'createcv'])->name('account.createcv');
     Route::post('/save-cv', [AccountController::class, 'savecv'])->name('account.saveCV');
     Route::get('/my-job-applications', [AccountController::class, 'myJobApplications'])->name('account.myJobApplications');
+    Route::get('/my-job-save', [AccountController::class, 'savejobs'])->name('account.savejobs');
 
 });
 
