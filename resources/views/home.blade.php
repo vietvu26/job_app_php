@@ -38,9 +38,9 @@
                         <select name="category" id="category" class="form-control">
                             <option value="">Select a Category</option>
                             @if ($newCategories->isNotEmpty())
-                            @foreach ($newCategories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+                                @foreach ($newCategories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
                             @endif
                         </select>
                     </div>
@@ -62,23 +62,29 @@
         <h2>Popular Categories</h2>
         <div class="row pt-5">
             @foreach ($categories as $category)
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_catagory">
-                    <a href="{{ route('admin.job.manage', $category->id) }}">
-                        <h4 class="pb-2">{{ $category->name }}</h4>
-                    </a>
-                    @php
-                    $jobCount = 0;
-                    foreach ($countJobByCategory as $count) {
-                    if ($count->category_id == $category->id) {
-                    $jobCount = $count->total;
-                    break;
-                    }
-                    }
-                    @endphp
-                    <p class="mb-0"> <span>{{ $jobCount }}</span> Available position</p>
-                </div>
-            </div>
+                        <div class="col-lg-4 col-xl-3 col-md-6">
+                            <div class="single_catagory">
+                                @if (@auth()->user()->role == 'admin')
+                                    <a href="{{ route('admin.job.manage', ['category' => $category->id]) }}">
+                                        <h4 class="pb-2">{{ $category->name }}</h4>
+                                    </a>
+                                @else
+                                    <a href="{{ route('findjob', ['category' => $category->id]) }}">
+                                        <h4 class="pb-2">{{ $category->name }}</h4>
+                                    </a>
+                                @endif
+                                @php
+                                    $jobCount = 0;
+                                    foreach ($countJobByCategory as $count) {
+                                        if ($count->category_id == $category->id) {
+                                            $jobCount = $count->total;
+                                            break;
+                                        }
+                                    }
+                                @endphp
+                                <p class="mb-0"> <span>{{ $jobCount }}</span> Available position</p>
+                            </div>
+                        </div>
             @endforeach
         </div>
     </div>
@@ -92,69 +98,37 @@
                 <div class="job_lists">
                     <div class="row">
                         @foreach ($jobs as $job)
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
-                                    <p>{{ $job->description }}</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">{{ $job->company_location }}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">{{$job->jobType->name}}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">{{ $job->salary }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="d-grid mt-3">
-                                        @if (Auth::check() && Auth::user()->role == 'admin')
-                                        <a href="{{ route('admin.job.manage', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
-                                        @elseif (Auth::check() && Auth::user()->role == 'user')
-                                        <a href="{{ route('jobDetail', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
-                                    <p class="job-description">{{ $job->description }}</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">{{ $job->company_location }}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">{{$job->jobType->name}}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">{{ $job->salary }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="d-grid mt-3">
-                                        @if (Auth::check() && Auth::user()->role == 'admin')
-                                        <a href="{{ route('admin.job.manage', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
-                                        {{-- @elseif (Auth::check() && Auth::user()->role == 'user') --}}
-
-                                        @endif
-                                        <a href="{{ route('jobDetail', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
+                            <div class="col-md-4">
+                                <div class="card border-0 p-3 shadow mb-4">
+                                    <div class="card-body">
+                                        <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
+                                        <p class="job-description">{{ $job->description }}</p>
+                                        <div class="bg-light p-3 border">
+                                            <p class="mb-0 job-item">
+                                                <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                <span class="ps-1 location">{{ $job->company_location }}</span>
+                                            </p>
+                                            <p class="mb-0">
+                                                <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                <span class="ps-1">{{$job->jobType->name}}</span>
+                                            </p>
+                                            <p class="mb-0">
+                                                <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                <span class="ps-1">{{ $job->salary }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="d-grid mt-3">
+                                            @if (@auth()->user()->role == 'admin')
+                                                <a href="{{ route('admin.job.manage') }}"
+                                                    class="btn btn-primary btn-lg">Manage</a>
+                                            @else
+                                                <a href="{{ route('jobDetail', $job->id) }}"
+                                                    class="btn btn-primary btn-lg">Details</a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -171,66 +145,38 @@
                 <div class="job_lists">
                     <div class="row">
                         @foreach ($latestJobs as $lastestJob)
-                        <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">{{ $lastestJob->title }}</h3>
-                                    <p class="job-description">{{ $lastestJob->description }}</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">{{ $lastestJob->company_location }}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">{{$lastestJob->jobType->name}}</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">{{ $lastestJob->salary }}</span>
-                                        </p>
+                            <div class="col-md-4">
+                                <div class="card border-0 p-3 shadow mb-4">
+                                    <div class="card-body">
+                                        <h3 class="border-0 fs-5 pb-2 mb-0">{{ $lastestJob->title }}</h3>
+                                        <p class="job-description">{{ $lastestJob->description }}</p>
+                                        <div class="bg-light p-3 border">
+                                            <p class="mb-0 job-item">
+                                                <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
+                                                <span class="ps-1 location">{{ $lastestJob->company_location }}</span>
+                                            </p>
+                                            <p class="mb-0">
+                                                <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
+                                                <span class="ps-1">{{$lastestJob->jobType->name}}</span>
+                                            </p>
+                                            <p class="mb-0">
+                                                <span class="fw-bolder"><i class="fa fa-usd"></i></span>
+                                                <span class="ps-1">{{ $lastestJob->salary }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="d-grid mt-3">
+                                            @if (@auth()->user()->role == 'admin')
+                                                <a href="{{ route('admin.job.manage') }}"
+                                                    class="btn btn-primary btn-lg">Manage</a>
+                                            @else
+                                                <a href="{{ route('jobDetail', $lastestJob->id) }}"
+                                                    class="btn btn-primary btn-lg">Details</a>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="d-grid mt-3">
-                                        @if (Auth::check() && Auth::user()->role == 'admin')
-                                        <a href="{{ route('admin.job.manage', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
-                                        {{-- @elseif (Auth::check() && Auth::user()->role == 'user') --}}
-
-                                        @endif
-                                        <a href="{{ route('jobDetail', $job->id) }}"
-                                            class="btn btn-primary btn-lg">Details</a>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>
                         @endforeach
-                        <!-- <div class="col-md-4">
-                            <div class="card border-0 p-3 shadow mb-4">
-                                <div class="card-body">
-                                    <h3 class="border-0 fs-5 pb-2 mb-0">Web Developer</h3>
-                                    <p>We are in need of a Web Developer for our company.</p>
-                                    <div class="bg-light p-3 border">
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
-                                            <span class="ps-1">Noida</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
-                                            <span class="ps-1">Remote</span>
-                                        </p>
-                                        <p class="mb-0">
-                                            <span class="fw-bolder"><i class="fa fa-usd"></i></span>
-                                            <span class="ps-1">2-3 Lacs PA</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="d-grid mt-3">
-                                        <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>

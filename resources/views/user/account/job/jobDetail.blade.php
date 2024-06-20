@@ -19,15 +19,15 @@
         <div class="row pb-5">
             <div class="col-md-8">
                 @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                 @endif
 
                 @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
                 @endif
                 <div class="card shadow border-0">
                     <div class="job_details_header">
@@ -58,19 +58,15 @@
                     <div class="descript_wrap white-bg">
                         <div class="single_wrap">
                             <h4>Job description</h4>
-                            {{$job->description}}
+                            {!! nl2br(e($job->description)) !!}
                         </div>
-                        <!-- <div class="single_wrap">
-                            <h4>Responsibility</h4>
-                            {{$job->responsibility}}
-                        </div> -->
                         <div class="single_wrap">
                             <h4>Requires experience</h4>
-                            {{$job->experience}}
+                            {{$job->experience}} years
                         </div>
                         <div class="single_wrap">
                             <h4>Benefits</h4>
-                            {{$job->benefits}}
+                            {!! nl2br(e($job->benefits)) !!}
                         </div>
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
@@ -104,7 +100,7 @@
 
 
                                 @if (!empty($job->salary))
-                                <li>Salary: <span>{{ $job->salary }}</span></li>
+                                    <li>Salary: <span>{{ $job->salary }}</span></li>
                                 @endif
 
                                 <li>Location: <span>{{ $job->company_location }}</span></li>
@@ -123,13 +119,13 @@
                                 <li>Name: <span>{{ $job->company_name }}</span></li>
 
                                 @if (!empty($job->company_location))
-                                <li>Locaion: <span>{{ $job->company_location }}</span></li>
+                                    <li>Locaion: <span>{{ $job->company_location }}</span></li>
                                 @endif
 
                                 @if (!empty($job->company_website))
-                                <li>Webite: <span><a
-                                            href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
-                                </li>
+                                    <li>Webite: <span><a
+                                                href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
+                                    </li>
                                 @endif
 
                             </ul>

@@ -53,8 +53,11 @@ class HomeController extends Controller
 
     public function applyJob(Request $request)
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'You need to login first.');
+        // if (!auth()->check()) {
+        //     return redirect()->route('login')->with('error', 'You need to login first.');
+        // }
+        if (auth()->user()->role == 'admin') {
+            return redirect()->route('jobDetail', $request->id)->with('error', 'Admin can not apply job.');
         }
         $id = $request->id;
 

@@ -2,7 +2,7 @@
 
 @section('main')
 @php
-$user = Auth::user();
+    $user = Auth::user();
 @endphp
 <section class="section-5 bg-2">
     <div class="container py-5">
@@ -22,9 +22,14 @@ $user = Auth::user();
             </div>
             <div class="col-lg-9">
                 @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
                 @endif
                 <form action="{{ route('account.saveCV') }}" method="POST" id="createCVForm" name="createCVForm">
                     @csrf
@@ -48,9 +53,9 @@ $user = Auth::user();
                                     <select name="jobType" id="jobType" class="form-select">
                                         <option value="">Select Job Type</option>
                                         @if ($jobTypes->isNotEmpty())
-                                        @foreach ($jobTypes as $jobType)
-                                        <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
-                                        @endforeach
+                                            @foreach ($jobTypes as $jobType)
+                                                <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                                            @endforeach
                                         @endif
                                     </select>
                                 </div>
@@ -59,9 +64,9 @@ $user = Auth::user();
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select a Category</option>
                                         @if($categories->isNotEmpty())
-                                        @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
                                         @endif
                                     </select>
                                 </div>

@@ -36,9 +36,13 @@ class JobController extends Controller
         Job::create($request->all());
         return redirect()->route('admin.job.create')->with('success', 'Job created successfully');
     }
-    public function manage()
+    public function manage(Request $request)
     {
-        $jobs = Job::latest()->with('applications.user')->paginate(3);
+        if ($request->query('category')) {
+            $jobs = Job::where('category', $request->query('category'))->with('applications.user')->paginate(3);
+        } else {
+            $jobs = Job::latest()->with('applications.user')->paginate(3);
+        }
         foreach ($jobs as $job) {
             $job->candidates = $job->applications->map(function ($application) {
                 return $application->user;
@@ -82,15 +86,11 @@ class JobController extends Controller
     public function delete($id)
     {
         $job = Job::find($id);
-        // dd($job);
-        // $job->delete();
-        // dd($id);
         if ($job == null) {
             return redirect()->route('admin.job.manage')->with('error', 'Job not found');
         } else {
-            // $job->delete();
-            $job->status = 0;
-            $job->save();
+            $job->delete();
+            $job->applications()->delete();
         }
         return redirect()->route('admin.job.manage')->with('success', 'Job deleted successfully');
     }
@@ -104,11 +104,13 @@ class JobController extends Controller
             $jobApplication->status = 'rejected';
             $jobApplication->save();
             return redirect()->route('admin.job.manage')->with('success', 'Application rejected');
-        }
-        if ($jobApplication->status == 'rejected' && $request->input('status') == 'accepted') {
+        } else if ($jobApplication->status == 'rejected' && $request->input('status') == 'accepted') {
             $jobApplication->status = 'accepted';
             $jobApplication->save();
             return redirect()->route('admin.job.manage')->with('success', 'Application accepted');
         }
+        $jobApplication->status = $request->input('status');
+        $jobApplication->save();
+        return redirect()->route('admin.job.manage')->with('success', 'Application ' . $request->input('status'));
     }
 }
