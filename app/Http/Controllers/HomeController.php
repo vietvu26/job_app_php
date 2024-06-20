@@ -72,11 +72,8 @@ class HomeController extends Controller
         
         if ($jobApplicationCount > 0) {
             $message = 'You already applied on this job.';
-            session()->flash('error',$message);
-            return response()->json([
-                'status' => false,
-                'message' => $message
-            ]);
+            session()->flash('error', $message);
+        return redirect()->route('jobDetail', ['id' => $id])->with('error', $message);
         }
         $employer_id = $job->user_id;
         $application = new Application();
