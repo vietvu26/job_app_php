@@ -1,45 +1,55 @@
 @extends('layouts.app')
 @section('main')
+<style>
+    .job-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Số dòng muốn giới hạn */
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 
-<section class="section-4 bg-2">    
+<section class="section-4 bg-2">
     <div class="container pt-5">
         <div class="row">
             <div class="col">
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{{route('find')}}"><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;Back to Jobs</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('find')}}"><i class="fa fa-arrow-left"
+                                    aria-hidden="true"></i> &nbsp;Back to Jobs</a></li>
                     </ol>
                 </nav>
             </div>
-                    
-        </div> 
+
+        </div>
     </div>
     <div class="container job_details_area">
         <div class="row pb-5">
             <div class="col-md-8">
                 @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
 
-        @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <div class="card shadow border-0">
                     <div class="job_details_header">
                         <div class="single_jobs white-bg d-flex justify-content-between">
                             <div class="jobs_left d-flex align-items-center">
-                                
+
                                 <div class="jobs_conetent">
                                     <a href="#">
                                         <h4>{{$job->title}}</h4>
                                     </a>
                                     <div class="links_locat d-flex align-items-center">
                                         <div class="location">
-                                            <p> <i class="fa fa-map-marker"></i> {{$job->location}}</p>
+                                            <p> <i class="fa fa-map-marker"></i> {{$job->company_location}}</p>
                                         </div>
                                         <div class="location">
                                             <p> <i class="fa fa-clock-o"></i> {{$job->jobType->name}}</p>
@@ -57,15 +67,17 @@
                     <div class="descript_wrap white-bg">
                         <div class="single_wrap">
                             <h4>Job description</h4>
-                            {{$job->description}}
+                            <div class="job-description">
+                                {{$job->description}}
+                            </div>
                         </div>
-                        <div class="single_wrap">
+                        <!-- <div class="single_wrap">
                             <h4>Responsibility</h4>
                             {{$job->responsibility}}
-                        </div>
+                        </div> -->
                         <div class="single_wrap">
-                            <h4>Qualifications</h4>
-                            {{$job->qualifications}}
+                            <h4>Requires experience</h4>
+                            {{$job->experience}}
                         </div>
                         <div class="single_wrap">
                             <h4>Benefits</h4>
@@ -84,7 +96,7 @@
                                 <button type="submit" class="btn btn-primary">Apply</button>
                             </form>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -96,15 +108,17 @@
                         </div>
                         <div class="job_content pt-3">
                             <ul>
-                                <li>Published on: <span>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</span></li>
-                                <li>Vacancy: <span>{{ $job->vacancy }}</span></li>
-                                
+                                <li>Published on:
+                                    <span>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</span>
+                                </li>
+                                <!-- <li>Vacancy: <span>{{ $job->vacancy }}</span></li> -->
+
 
                                 @if (!empty($job->salary))
                                 <li>Salary: <span>{{ $job->salary }}</span></li>
                                 @endif
 
-                                <li>Location: <span>{{ $job->location }}</span></li>
+                                <li>Location: <span>{{ $job->company_location }}</span></li>
                                 <li>Job Nature: <span> {{ $job->jobType->name }}</span></li>
                             </ul>
                         </div>
@@ -124,7 +138,9 @@
                                 @endif
 
                                 @if (!empty($job->company_website))
-                                <li>Webite: <span><a href="{{ $job->company_website }}">{{ $job->company_website }}</a></span></li>
+                                <li>Webite: <span><a
+                                            href="{{ $job->company_website }}">{{ $job->company_website }}</a></span>
+                                </li>
                                 @endif
 
                             </ul>
@@ -144,5 +160,6 @@
 <script src="assets/js/lightbox.min.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
 @endsection

@@ -15,51 +15,55 @@ class HomeController extends Controller
     //
     public function index()
     {
-        
+
         $jobs = Job::inRandomOrder()->limit(6)->get();
-        $categories = Category::where('status',1)->orderBy('name','ASC')->take(8)->get();
+        $categories = Category::where('status', 1)->orderBy('name', 'ASC')->take(8)->get();
 
-        $newCategories = Category::where('status',1)->orderBy('name','ASC')->get();
+        $newCategories = Category::where('status', 1)->orderBy('name', 'ASC')->get();
 
-        $featuredJobs = Job::where('status',1)
-                        ->orderBy('created_at','DESC')
-                        ->with('jobType')
-                        ->take(6)->get();
+        $featuredJobs = Job::where('status', 1)
+            ->orderBy('created_at', 'DESC')
+            ->with('jobType')
+            ->take(6)->get();
 
-        $latestJobs = Job::where('status',1)
-                        ->with('jobType')
-                        ->orderBy('created_at','DESC')
-                        ->take(6)->get();
+        $latestJobs = Job::where('status', 1)
+            ->with('jobType')
+            ->orderBy('created_at', 'DESC')
+            ->take(6)->get();
+        $countJobByCategory = Job::select('category_id')->selectRaw('count(*) as total')->groupBy('category_id')->get();
         return view('home', [
             'categories' => $categories,
-             'jobs' => $jobs,
-             'latestJobs' => $latestJobs,
-             'newCategories' => $newCategories
-            ]);
+            'jobs' => $jobs,
+            'latestJobs' => $latestJobs,
+            'newCategories' => $newCategories,
+            'countJobByCategory' => $countJobByCategory,
+        ]);
     }
-    public function detail($id){
+    public function detail($id)
+    {
         $job = Job::where([
             'id' => $id,
             'status' => 1,
-        ])->with(['jobType','category'])->first();
-        if($job == null){
+        ])->with(['jobType', 'category'])->first();
+        if ($job == null) {
             abort(404);
         }
-        return view('user.account.job.jobDetail',['job'=>$job]);
+        return view('user.account.job.jobDetail', ['job' => $job]);
     }
 
-    public function applyJob(Request $request) {
+    public function applyJob(Request $request)
+    {
         if (!auth()->check()) {
             return redirect()->route('login')->with('error', 'You need to login first.');
         }
         $id = $request->id;
 
-        $job = Job::where('id',$id)->first();
+        $job = Job::where('id', $id)->first();
 
         // If job not found in db
         if ($job == null) {
             $message = 'Job does not exist.';
-            session()->flash('error',$message);
+            session()->flash('error', $message);
             return response()->json([
                 'status' => false,
                 'message' => $message
@@ -69,7 +73,7 @@ class HomeController extends Controller
             'user_id' => Auth::user()->id,
             'job_id' => $id
         ])->count();
-        
+
         if ($jobApplicationCount > 0) {
             $message = 'You already applied on this job.';
             session()->flash('error', $message);
@@ -85,18 +89,19 @@ class HomeController extends Controller
         return redirect()->route('jobDetail', ['id' => $id])->with('success', 'Apply job successfully.');
 
     }
-    public function savedJob(Request $request) {
+    public function savedJob(Request $request)
+    {
         if (!auth()->check()) {
             return redirect()->route('login')->with('error', 'You need to login first.');
         }
         $id = $request->id;
 
-        $job = Job::where('id',$id)->first();
+        $job = Job::where('id', $id)->first();
 
         // If job not found in db
         if ($job == null) {
             $message = 'Job does not exist.';
-            session()->flash('error',$message);
+            session()->flash('error', $message);
             return response()->json([
                 'status' => false,
                 'message' => $message
@@ -108,11 +113,7 @@ class HomeController extends Controller
         ])->count();
 
         if ($count > 0) {
-            session()->flash('error','You already saved this job.');
-
-            return response()->json([
-                'status' => false,
-            ]);
+            return redirect()->route('jobDetail', ['id' => $id])->with('error', 'You already saved this job.');
         }
 
         $savedJob = new SavedJob;
@@ -123,24 +124,24 @@ class HomeController extends Controller
 
     }
     public function deleteapply($id)
-{
-    $jobApplication = Application::findOrFail($id);
-    $jobApplication->delete();
-    
-    return redirect()->route('account.myJobApplications')->with('success', 'Job application deleted successfully.');
-}
-public function deletesave($id)
-{
-    $savejobs = SavedJob::findOrFail($id);
-    $savejobs->delete();
-    
-    return redirect()->route('account.savejobs')->with('success', 'Job saved deleted successfully.');
-}
+    {
+        $jobApplication = Application::findOrFail($id);
+        $jobApplication->delete();
 
-    
-    
+        return redirect()->route('account.myJobApplications')->with('success', 'Job application deleted successfully.');
+    }
+    public function deletesave($id)
+    {
+        $savejobs = SavedJob::findOrFail($id);
+        $savejobs->delete();
 
-    
-    
+        return redirect()->route('account.savejobs')->with('success', 'Job saved deleted successfully.');
+    }
+
+
+
+
+
+
 
 }

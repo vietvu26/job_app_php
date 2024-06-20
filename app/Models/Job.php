@@ -11,14 +11,16 @@ class Job extends Model
     protected $table = 'jobs';
     protected $fillable = [
         'title',
-        'category',
-        'description',
-        'location',
-        'salary',
-        'company',
-        'email',
-        'phone',
+        'category_id',
+        'job_type_id',
         'user_id',
+        'salary',
+        'description',
+        'benefits',
+        'experience',
+        'company_location',
+        'company_name',
+        // 'user_id',
     ];
     protected $hidden = [
         '_token',
@@ -31,8 +33,9 @@ class Job extends Model
     {
         return $this->belongsTo(JobType::class, 'category_id');
     }
-    public function applications() {
+    public function applications()
+    {
         return $this->hasMany(Application::class);
     }
-    
+
 }

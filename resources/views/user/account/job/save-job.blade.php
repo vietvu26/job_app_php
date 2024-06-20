@@ -47,13 +47,6 @@
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($savejob->applied_date)->format('d M, Y') }}</td>
                                             <td>{{ $savejob->job->applications->count() }} Applications</td>
-                                            {{-- <td>
-                                                @if ($savejob->job->status == 1)
-                                                <div class="job-status text-capitalize">Active</div>
-                                                @else
-                                                <div class="job-status text-capitalize">Block</div>
-                                                @endif                                    
-                                            </td> --}}
                                             <td>
                                                 <div class="action-dots float-end">
                                                     <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">

@@ -22,11 +22,11 @@
             <li class="list-group-item d-flex justify-content-between p-3">
                 <a href="">Account Settings</a>
             </li>
+            @auth
+            @if (@auth()->user()->role == 'user')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('account.createcv') }}">Post a CV</a>
             </li>
-            @auth
-            @if (@auth()->user()->role == 'user')
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="">My Jobs</a>
             </li>
@@ -37,6 +37,9 @@
                 <a href="{{ route('account.savejobs') }}">Saved Jobs</a>
             </li>
             @elseif (@auth()->user()->role == 'admin')
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <a href="{{ route('admin.job.create') }}">Post a Job</a>
+            </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="{{ route('admin.job.manage') }}">Manage Jobs</a>
             </li>

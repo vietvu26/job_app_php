@@ -42,4 +42,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function jobApplications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }
