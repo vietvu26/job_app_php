@@ -119,20 +119,29 @@ class AccountController extends Controller
         ]);
     }
     public function savecv(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'jobType' => 'required|integer|exists:job_types,id',
-            'category' => 'required|integer|exists:categories,id',
-            'address' => 'required|string|max:255',
-            'education' => 'required|string',
-            'experience' => 'required|string|max:255',
-            'keywords' => 'required|string|max:255',
-        ]);
+{
+    // Validate input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'jobType' => 'required|integer|exists:job_types,id',
+        'category' => 'required|integer|exists:categories,id',
+        'address' => 'required|string|max:255',
+        'education' => 'required|string',
+        'work_experience' => 'nullable|string', // Make work_experience nullable since it's optional
+        'experience' => 'required|string|max:255',
+        'keywords' => 'required|string|max:255',
+    ]);
 
-        CV::create([
-            'user_id' => auth()->id(),
+    // Create or update CV details
+    $user = auth()->user();
+
+    // Check if the user already has a CV
+    $cv = CV::where('user_id', $user->id)->first();
+
+    if ($cv) {
+        // Update existing CV
+        $cv->update([
             'name' => $request->name,
             'email' => $request->email,
             'job_type_id' => $request->jobType,
@@ -143,9 +152,29 @@ class AccountController extends Controller
             'experience' => $request->experience,
             'keywords' => $request->keywords,
         ]);
-
-        return redirect()->back()->with('success', 'CV saved successfully!');
+    } else {
+        // Create new CV
+        CV::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'job_type_id' => $request->jobType,
+            'category_id' => $request->category,
+            'address' => $request->address,
+            'education' => $request->education,
+            'work_experience' => $request->work_experience,
+            'experience' => $request->experience,
+            'keywords' => $request->keywords,
+        ]);
     }
+
+    // Update cv_updated field for the user
+    $user->cv_updated = true;
+    /** @var \App\Models\User $user */
+    $user->save();
+
+    return redirect()->back()->with('success', 'CV saved successfully!');
+}
     public function myJobApplications(){
         $jobApplications = Application::where('user_id',Auth::user()->id)
                 ->with(['job','job.jobType','job.applications'])

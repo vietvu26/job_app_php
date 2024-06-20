@@ -151,7 +151,14 @@
         </div>
     </div>
 </section>
-
+<script>
+    // Đoạn mã JavaScript để delay và redirect
+    function redirectWithDelay(url, delay) {
+        setTimeout(function() {
+            window.location.href = url;
+        }, delay);
+    }
+</script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/bootstrap.bundle.5.1.3.min.js"></script>
 <script src="assets/js/instantpages.5.1.0.min.js"></script>
