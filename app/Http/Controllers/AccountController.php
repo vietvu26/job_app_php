@@ -69,44 +69,45 @@ class AccountController extends Controller
     return redirect()->route('account.profile')->with('success', 'Profile updated successfully.');
 }
 
-    public function updateProfilePic(Request $request)
-    {
-        //dd($request->all());
+public function updateProfilePic(Request $request)
+{
+    $id = Auth::user()->id;
 
-        $id = Auth::user()->id;
+    $validator = Validator::make($request->all(), [
+        'image' => 'required|image'
+    ]);
 
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|image'
-        ]);
+    if ($validator->passes()) {
+        $image = $request->image;
+        $ext = $image->getClientOriginalExtension();
+        $imageName = $id . '-' . time() . '.' . $ext;
+        $image->move(public_path('/profile_pic/'), $imageName);
 
-        if ($validator->passes()) {
-            $image = $request->image;
-            $ext = $image->getClientOriginalExtension();
-            $imageName = $id . '-' . time() . '.' . $ext;
-            $image->move(public_path('/profile_pic/'), $imageName);
+        // Create a small thumbnail
+        $sourcePath = public_path('/profile_pic/' . $imageName);
+        $manager = new ImageManager(Driver::class);
+        $image = $manager->read($sourcePath);
 
-            // Create a small thumbnail
-            $sourcePath = public_path('/profile_pic/' . $imageName);
-            $manager = new ImageManager(Driver::class);
-            $image = $manager->read($sourcePath);
+        // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
+        $image->cover(150, 150);
+        $image->toPng()->save(public_path('/profile_pic/' . $imageName));
 
-            // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
-            $image->cover(150, 150);
-            $image->toPng()->save(public_path('/profile_pic/' . $imageName));
+        // Delete Old Profile Pic
+        File::delete(public_path('/profile_pic/' . Auth::user()->image));
+        // File::delete(public_path('/profile_pic/' . Auth::user()->image));
 
-            // Delete Old Profile Pic
-            File::delete(public_path('/profile_pic/' . Auth::user()->image));
-            File::delete(public_path('/profile_pic/' . Auth::user()->image));
+        User::where('id', $id)->update(['image' => $imageName]);
 
-            User::where('id', $id)->update(['image' => $imageName]);
+        session()->flash('success', 'Profile picture updated successfully.');
 
-            session()->flash('success', 'Profile picture updated successfully.');
-
-            return redirect()->route('account.profile'); 
-        } else {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        return redirect()->route('account.profile'); 
+    } else {
+        // Nếu không phải là ảnh, thêm thông báo lỗi và chuyển hướng trở lại
+        session()->flash('error', 'The uploaded file must be an image.');
+        return  redirect()->route('account.profile');
     }
+}
+
     public function createcv()
     {
         $categories = Category::orderBy('name', 'ASC')->get();

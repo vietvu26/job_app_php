@@ -39,7 +39,7 @@ class JobController extends Controller
     public function manage(Request $request)
     {
         if ($request->query('category')) {
-            $jobs = Job::where('category', $request->query('category'))->with('applications.user')->paginate(3);
+            $jobs = Job::where('category_id', $request->query('category'))->with('applications.user')->paginate(3);
         } else {
             $jobs = Job::latest()->with('applications.user')->paginate(3);
         }

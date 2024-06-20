@@ -118,7 +118,7 @@
                                         </div>
                                         <div class="d-grid mt-3">
                                             @if (@auth()->user()->role == 'admin')
-                                                <a href="{{ route('admin.job.manage') }}"
+                                                <a href="{{ route('admin.job.edit',$job->id) }}"
                                                     class="btn btn-primary btn-lg">Manage</a>
                                             @else
                                                 <a href="{{ route('jobDetail', $job->id) }}"
@@ -165,7 +165,7 @@
                                         </div>
                                         <div class="d-grid mt-3">
                                             @if (@auth()->user()->role == 'admin')
-                                                <a href="{{ route('admin.job.manage') }}"
+                                                <a href="{{ route('admin.job.edit',$job->id) }}"
                                                     class="btn btn-primary btn-lg">Manage</a>
                                             @else
                                                 <a href="{{ route('jobDetail', $lastestJob->id) }}"

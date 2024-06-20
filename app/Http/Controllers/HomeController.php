@@ -53,14 +53,15 @@ class HomeController extends Controller
 
     public function applyJob(Request $request)
     {
+        $id = $request->id;
         // Kiểm tra người dùng đã đăng nhập chưa
         if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'You need to login first.');
+            return redirect()->route('jobDetail', ['id' => $id])->with('error', 'You need to login first.');
         }
         if (auth()->user()->role == 'admin') {
             return redirect()->route('jobDetail', ['id' => $request->id])->with('error', 'Admin cannot apply for jobs.');
         }
-        $id = $request->id;
+       
         // Lấy thông tin người dùng hiện tại
         $user = Auth::user();
 
@@ -107,10 +108,11 @@ class HomeController extends Controller
 
     public function savedJob(Request $request)
     {
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'You need to login first.');
-        }
         $id = $request->id;
+        if (!auth()->check()) {
+            return redirect()->route('jobDetail', ['id' => $id])->with('error', 'You need to login first.');
+        }
+        
 
         $job = Job::where('id', $id)->first();
 
