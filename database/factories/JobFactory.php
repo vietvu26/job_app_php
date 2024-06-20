@@ -20,7 +20,7 @@ class JobFactory extends Factory
             'title' => fake()->name,
             // 'id' => rand(4,20),
             'job_type_id' => rand(1,5),
-            'category_id' => rand(1,5),
+            'category_id' => rand(1,8),
             'vacancy' => rand(1,5),
             'salary' => rand(1000,5000),
             'location' => fake()->city,

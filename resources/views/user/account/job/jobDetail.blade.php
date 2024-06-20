@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('main')
+<style>
+    .job-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Số dòng muốn giới hạn */
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 
 <section class="section-4 bg-2">
     <div class="container pt-5">
@@ -136,7 +145,14 @@
         </div>
     </div>
 </section>
-
+<script>
+    // Đoạn mã JavaScript để delay và redirect
+    function redirectWithDelay(url, delay) {
+        setTimeout(function() {
+            window.location.href = url;
+        }, delay);
+    }
+</script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/bootstrap.bundle.5.1.3.min.js"></script>
 <script src="assets/js/instantpages.5.1.0.min.js"></script>

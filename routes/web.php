@@ -19,11 +19,7 @@ use App\Http\Controllers\FindController;
 |
 */
 
-Route::get(
-    '/',
-    // return view('front.home');
-    [HomeController::class, 'index']
-)->name('home');
+Route::get('/',[HomeController::class, 'index'])->name('home');
 Route::get('/findjob', [FindController::class, 'index'])->name('find');
 Route::get('/jobs/detail/{id}', [HomeController::class, 'detail'])->name('jobDetail');
 Route::get('/my-job-applications/delete/{id}', [HomeController::class, 'deleteapply'])->name('deletejobapply');

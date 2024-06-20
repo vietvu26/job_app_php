@@ -3,7 +3,7 @@
 <style>
 .job-description {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     /* Số dòng muốn giới hạn */
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -87,6 +87,11 @@
 
                 <div class="col-md-8 col-lg-9">
                     <div class="job_listing_area">
+                        @if($jobs->isEmpty())
+                        <div class="alert alert-warning" role="alert">
+                            No jobs found.
+                        </div>
+                        @else
                         <div class="job_lists">
                             <div class="row">
                                 @foreach ($jobs as $job)
@@ -122,6 +127,7 @@
                         <div class="col-md-12">
                             {{ $jobs->appends(request()->query())->links() }}
                         </div>
+                        @endif
                     </div>
                     <div>
                     </div>
