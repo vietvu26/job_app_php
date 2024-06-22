@@ -94,8 +94,7 @@ public function updateProfilePic(Request $request)
 
         // Delete Old Profile Pic
         File::delete(public_path('/profile_pic/' . Auth::user()->image));
-        // File::delete(public_path('/profile_pic/' . Auth::user()->image));
-
+        
         User::where('id', $id)->update(['image' => $imageName]);
 
         session()->flash('success', 'Profile picture updated successfully.');

@@ -67,7 +67,7 @@
                     <div class="descript_wrap white-bg">
                         <div class="single_wrap">
                             <h4>Job description</h4>
-                            {!! nl2br(e($job->description)) !!}
+                            {{$job->description }}
                         </div>
                         <div class="single_wrap">
                             <h4>Requires experience</h4>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="single_wrap">
                             <h4>Benefits</h4>
-                            {!! nl2br(e($job->benefits)) !!}
+                            {{$job->benefits}}
                         </div>
                         <div class="border-bottom"></div>
                         <div class="pt-3 text-end">
